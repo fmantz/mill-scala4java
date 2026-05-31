@@ -1,0 +1,56 @@
+//| mill-version: 1.1.6
+//| mill-jvm-version: zulu:17
+package build
+import mill.*
+import mill.api.Task
+import scalalib.*
+import publish.*
+import mill.util.BuildInfo.{millBinPlatform, millVersion}
+
+object scala4java_plugin extends ScalaModule, PublishModule {
+  def scalaVersion = "3.8.1"
+
+  object Dependencies {
+    val ApacheBcel = "6.12.0"
+  }
+
+  // Set the `platformSuffix` so the name indicates what Mill version it is compiled for
+  def platformSuffix = s"_mill$millBinPlatform"
+
+  // Depend on `mill-libs` so we can compile against Mill APIs
+  def mvnDeps = Seq(
+    mvn"com.lihaoyi::mill-libs:$millVersion",
+    mvn"com.lihaoyi::mill-contrib-proguard:$millVersion",
+    mvn"org.apache.bcel:bcel:${Dependencies.ApacheBcel}"
+  )
+
+  // Setup for integration tests
+  object integration extends ScalaTests, TestModule.Utest {
+    def mvnDeps = Seq(mvn"com.lihaoyi::mill-testkit:$millVersion")
+    def forkEnv = Task {
+      Map(
+        "MILL_EXECUTABLE_PATH" -> millExecutable.assembly().path.toString,
+        "MILL_USER_TEST_REPO" -> publishLocalTestRepo().path.toString
+      )
+    }
+    // Create a Mill executable configured for testing our plugin
+    object millExecutable extends JavaModule {
+      def mvnDeps = Seq(mvn"com.lihaoyi:mill-runner-launcher_3:$millVersion")
+      def mainClass = Some("mill.launcher.MillLauncherMain")
+    }
+  }
+
+  // Publishing Config
+  def publishVersion = "0.1.0"
+
+  def artifactName = "scala4java_plugin"
+
+  def pomSettings: Task.Simple[PomSettings] = PomSettings(
+    description = "Java Lib Support",
+    organization = "io.github.fmantz",
+    url = "https://github.com/fmantz/mill-scala4java",
+    licenses = Seq(License.MIT),
+    versionControl = VersionControl.github("fmantz", "mill-scala4java"),
+    developers = Seq(Developer("fmantz", "Florian Mantz", "https://github.com/fmantz"))
+  )
+}
