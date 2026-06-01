@@ -19,8 +19,8 @@ import scala4java.api.*
  * that we want to create a pure java library. Therefore, it adds the functionality of shading and shrinking,
  * which is used as follows:
  * - All (non-test) scala classes are shaded and included in the jar.
- * - Therefore an assembly is computed first and then the compiled scala classes are reused from the assembly in the jar.
- * - If shrinking is enabled the assembly file is shrunk before its class files are reused.
+ * - Therefore a "pre"-assembly is computed first and then the compiled scala classes are reused from this pre-assembly in the jar.
+ * - If shrinking is enabled the pre-assembly file is shrunk before its class files are reused.
  * - As entry point for the shrinker 'ProGuard' all sources code classes are used as well as all test classes.
  * - After shrinking all test cases from scala4java.TestModules are executed to check if the shrunk code still works.
  */
@@ -91,7 +91,7 @@ trait ScalaModule extends mill.scalalib.ScalaModule, ShrinkingSupport, ShadingSu
     val baseAssemblyRoot = prepareAssemblyAndRunScala4JavaTests().path
     val baseAssemblySources = baseAssemblyRoot / Constants.FolderBuildCode
 
-    // copy files from assembly:
+    // copy files from pre-assembly:
 
     val shadedSourceDir = baseAssemblySources / shadedRootDir()
     val tempDir = os.temp.dir(Task.dest)

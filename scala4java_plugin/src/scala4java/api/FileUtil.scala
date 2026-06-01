@@ -37,7 +37,7 @@ trait FileUtil {
   }
 
   /**
-   * After ProGuard shrunk the assembly, all scala4Java flagged tests are
+   * After ProGuard shrunk the pre-assembly, all scala4Java flagged tests are
    * executed to check if all tests still succeed.
    * The result of these tests are written to a log file with this function.
    * @param path where the log file should be written to
