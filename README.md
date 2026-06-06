@@ -75,19 +75,19 @@ mill publishM2Local
 
 #### How does it work (Simplified)?:
 
-- **Compilation & Documentation**: First, the code is compiled as usual, and the Javadoc is generated for the Java facade classes.
-- **Shaded Assembly**: Then, the Mill assembly plugin builds a "pre-assembly" JAR, shading all Scala libraries unless disabled. 
+1. **Compilation & Documentation**: First, the code is compiled as usual, and the Javadoc is generated for the Java facade classes.
+2. **Shaded Assembly**: Then, the Mill assembly plugin builds a "pre-assembly" JAR, shading all Scala libraries unless disabled. 
   This pre-assembly also includes test code and libraries, which are excluded from the later "publish" JAR (i.e. ```mill jar```). 
   The file is called a "pre-assembly" because it serves as the foundation for both the "publish" and final "assembly" JARs (i.e. ```mill assembly```).
   The testing code is added to the pre-assembly for the later verification step. 
-- **Optimization** (ProGuard®): Next, ProGuard® is used (unless disabled) to shrink and/or obfuscate the pre-assembly. We leverage the Mill ProGuard® plugin for this.
+3. **Optimization** (ProGuard®): Next, ProGuard® is used (unless disabled) to shrink and/or obfuscate the pre-assembly. We leverage the Mill ProGuard® plugin for this.
   To avoid manual configuration, we set all local source classes—including tests—as entry points. ProGuard® keep rules are automatically generated for all user-defined classes. 
   However, this step may break the code, as perfect auto-generation of ProGuard® rules is not possible.
-- **Verification**: After shrinking, tests are executed against the optimized pre-assembly to ensure everything still functions correctly.
-- **Module Creation**: The final JAR module is then built from a subset (!) of these pre-assembly classes. 
+4. **Verification**: After shrinking, tests are executed against the optimized pre-assembly to ensure everything still functions correctly.
+5. **Module Creation**: The final JAR module is then built from a subset (!) of these pre-assembly classes. 
   It includes all Scala libraries but excludes Java libraries, testing libraries and testing code.
   A third-party license file is added to provide information on the bundled libraries (unless disabled).
-- **Dependency Management**: Finally, the Ivy and POM files are adjusted: all Scala libraries are removed as dependencies, while the Java dependencies from those removed Scala libs are explicitly added.
+6. **Dependency Management**: Finally, the Ivy and POM files are adjusted: all Scala libraries are removed as dependencies, while the Java dependencies from those removed Scala libs are explicitly added.
 
 To verify that the generated JAR works correctly and can be resolved by build tools, you can test it here:
 - Use the lib via mill (Java): https://github.com/fmantz/mill-scala4java-example/tree/main/use-lib/mill
