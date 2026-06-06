@@ -201,3 +201,21 @@ Feel free to share your thoughts in the discussion!
 This plugin has only been tested on two small personal projects; therefore, it should be considered **experimental and not production-ready**. 
 Feel free to try it out on your hobby projects, **but please do not publish any resulting artifacts to Maven Central**, I doubt they would appreciate it!
 **I accept no liability or responsibility for any legal issues that may arise from using this software.**
+
+### Note
+
+I separated the example code from the plugin code.
+
+To try the example, just clone the GitHub repository (the plugin code is available on Maven Central):
+
+```bash
+git clone https://github.com/fmantz/mill-scala4java-example.git
+```
+
+To compile the plugin yourself, clone the GitHub repository:
+
+```bash
+git clone https://github.com/fmantz/mill-scala4java.git
+```
+
+Enjoy!
