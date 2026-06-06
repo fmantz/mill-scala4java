@@ -76,12 +76,16 @@ mill publishM2Local
 #### How does it work (Simplified)?:
 
 - **Compilation & Documentation**: First, the code is compiled as usual, and the Javadoc is generated for the Java facade classes.
-- **Shaded Assembly**: The Mill assembly plugin builds a "pre-assembly" JAR, shading all Scala libraries (unless disabled). This pre-assembly also includes the test code.
-- **Optimization** (ProGuard®]): Next, ProGuard® is used (unless disabled) to shrink and/or obfuscate the pre-assembly. We leverage the Mill ProGuard® plugin for this. 
-  To avoid manual configuration, we set all local source classes (including tests) as entry points.
-  Keep rules are automatically generated for all user-defined classes.
+- **Shaded Assembly**: Then, the Mill assembly plugin builds a "pre-assembly" JAR, shading all Scala libraries unless disabled. 
+  This pre-assembly also includes test code and libraries, which are excluded from the later "publish" JAR (i.e. ```mill jar```). 
+  The file is called a "pre-assembly" because it serves as the foundation for both the "publish" and final "assembly" JARs (i.e. ```mill assembly```).
+  The testing code is added to the pre-assembly for the later verification step. 
+- **Optimization** (ProGuard®): Next, ProGuard® is used (unless disabled) to shrink and/or obfuscate the pre-assembly. We leverage the Mill ProGuard® plugin for this.
+  To avoid manual configuration, we set all local source classes—including tests—as entry points. ProGuard® keep rules are automatically generated for all user-defined classes. 
+  However, this step may break the code, as perfect auto-generation of ProGuard® rules is not possible.
 - **Verification**: After shrinking, tests are executed against the optimized pre-assembly to ensure everything still functions correctly.
-- **Module Creation**: The final JAR module is then built from a subset of these pre-assembly classes. It includes all Scala libraries but excludes Java libraries, testing libraries and testing code. 
+- **Module Creation**: The final JAR module is then built from a subset (!) of these pre-assembly classes. 
+  It includes all Scala libraries but excludes Java libraries, testing libraries and testing code.
   A third-party license file is added to provide information on the bundled libraries (unless disabled).
 - **Dependency Management**: Finally, the Ivy and POM files are adjusted: all Scala libraries are removed as dependencies, while the Java dependencies from those removed Scala libs are explicitly added.
 
@@ -118,8 +122,8 @@ def enableLicensesInfo = true
 With default settings and no verification tests enabled (i.e., omitting ```extends scala4java.TestModule(this)```), 
 my Scala library was only **571 KB**. Disabling 'LicensesInfo' generation reduced the size further to **505 KB**. 
 Adding JUnit tests barely affected the JAR size (increasing it to just 586 KB) since JUnit is Java-based and does not rely on Scala. 
-However, switching to 'uTest' increased the size to 793 KB because the testing library requires additional Scala standard functions. 
-Finally, using 'ScalaTest' caused a massive jump to 3.2 MB, as it heavily utilizes the Scala API.
+However, switching to 'uTest' increased the size to 793 KB because the testing library requires additional Scala standard functions 
+(code from the scala-library.jar). Finally, using 'ScalaTest' caused a massive jump to 3.2 MB, as it heavily utilizes the Scala API.
 
 - no tests: 571 KB
 - only junit: 586 KB
@@ -163,18 +167,19 @@ SA = shade, SI = shrink, O = Obfuscate
 | SI,SA,O   | 586 KB      | 
 
 note: In the current implementation, obfuscation requires shading for the publish.jar. 
-Furthermore, please note that both shading and shrinking are required to make the JAR compatible with any Scala or Java project.
+Furthermore, please note that both shading and shrinking are required to make the JAR compatible with any Scala or Java version.
 
 
 ### Limitations
 
 In the **scala4java** plugin implementation, Mill's assembly feature is used to create the base for JAR files. 
 Consequently, the ```resolvedIvyAssembly``` and ```upstreamAssembly``` methods have been overridden. 
-Ultimately, this plugin focuses primarily on "JAR" functionality and treats the assembly merely as an underlying tool.
+Ultimately, this plugin focuses primarily on "JAR" functionality (i.e. ```mill jar```, ```mill publishLocal```, ```mill publishM2Local```) 
+and treats the assembly (```mill assembly```) merely as an underlying tool.
 
 Therefore, note a few minor limitations:
 
-- All test code and resources flagged by ```scala4java.TestModule(this)``` will be included in the pre-assembly.
+- All test code and resources flagged by ```scala4java.TestModule(this)``` will be included in the (pre-)assembly.
   To avoid potential naming clashes, ensure that you use unique names across different test modules.
 - Additionally, some unnecessary test classes and test library JARs may be included in the assembly.
   While this can be fixed, it is currently considered a low priority.
@@ -189,7 +194,7 @@ Furthermore, the final JAR size depends heavily on the Scala features used and t
 making size predictions difficult. I'm not entirely convinced yet, but it was a great exercise. 
 Feel free to share your thoughts in the discussion!
 
-**Huge thanks to all the engineers and maintainers behind the tools powering this plugin, especially Mill, ProGuard, and Apache BCEL!**
+**Huge thanks to all the engineers and maintainers behind the tools powering this plugin, especially Scala, Mill, ProGuard, and Apache BCEL!**
 
 ### DISCLAIMER:
 
