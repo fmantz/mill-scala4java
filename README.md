@@ -198,7 +198,7 @@ Feel free to share your thoughts in the discussion!
 
 ### DISCLAIMER:
 
-This plugin has only been tested on two small personal projects; therefore, it should be considered **experimental and not production-ready**. 
+This plugin has only been tested on two small personal projects (on Linux); therefore, it should be considered **experimental and not production-ready**. 
 Feel free to try it out on your hobby projects, **but please do not publish any resulting artifacts to Maven Central**, I doubt they would appreciate it!
 **I accept no liability or responsibility for any legal issues that may arise from using this software.**
 
@@ -256,7 +256,7 @@ object examples extends scala4java.ScalaModule {
 You can test it here:
 
 ```bash
-git clone https://github.com/scala/scala3-mill-example-project.git
+git clone https://github.com/fmantz/scala3-mill-example-project
 
 ./mill examples.assembly
 
