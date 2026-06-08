@@ -67,10 +67,10 @@ As usual, the Java library can be built and published locally with the following
 
 ```bash
 # For local ivy repo: 
-mill publishLocal
+./mill publishLocal
 
 # For local maven repo:
-mill publishM2Local    
+./mill publishM2Local    
 ```
 
 #### How does it work (Simplified)?:
@@ -93,7 +93,7 @@ To verify that the generated JAR works correctly and can be resolved by build to
 - Use the lib via mill (Java): https://github.com/fmantz/mill-scala4java-example/tree/main/use-lib/mill
 
 ```bash
-mill run 
+./mill run 
 ```
 
 - Use the lib via sbt (Scala): https://github.com/fmantz/mill-scala4java-example/tree/main/use-lib/sbt
