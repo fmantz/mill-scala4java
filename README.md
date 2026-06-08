@@ -194,7 +194,7 @@ Furthermore, the final JAR size depends heavily on the Scala features used and t
 making size predictions difficult. I'm not entirely convinced yet, but it was a great exercise. 
 Feel free to share your thoughts in the discussion!
 
-**Huge thanks to all the engineers and maintainers behind the tools powering this plugin, especially Scala, Mill, ProGuard, and Apache BCEL!**
+**Huge thanks to all the engineers and maintainers behind the tools powering this plugin, especially Scala, Mill, ProGuard®, and Apache BCEL!**
 
 ### DISCLAIMER:
 
@@ -266,4 +266,5 @@ java -jar ./out/examples/assembly.dest/out.jar
 The assembly JAR size dropped from *9 MB* to *1.5 MB*.
 Since the scala4java plugin allows you to override any default setting, 
 you should be able to resolve any issues that may arise.
-
+Usually, adding a missing ProGuard® rule solves the issue. 
+Alternatively, you can disable ProGuard® entirely. 
