@@ -192,7 +192,7 @@ Therefore, note a few minor limitations:
 Mill is remarkably easy to customize, even for niche use cases like the one described above. 
 Whether publishing Scala libraries as pure Java libraries is advisable remains a different matter. 
 Furthermore, the final JAR size depends heavily on the Scala features used and the effectiveness of the ProGuard® optimization, 
-making size predictions difficult. I'm not entirely convinced yet, but it was a great exercise. 
+making size predictions difficult. I'm not entirely convinced of the approach yet, but it was a great exercise. 
 Feel free to share your thoughts in the discussion!
 
 **Huge thanks to all the engineers and maintainers behind the tools powering this plugin, especially Scala, Mill, ProGuard®, and Apache BCEL!**
