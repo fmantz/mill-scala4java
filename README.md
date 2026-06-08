@@ -266,5 +266,20 @@ java -jar ./out/examples/assembly.dest/out.jar
 The assembly JAR size dropped from *9 MB* to *1.5 MB*.
 Since the scala4java plugin allows you to override any default setting, 
 you should be able to resolve any issues that may arise.
+
 Usually, adding a missing ProGuard® rule solves the issue. 
-Alternatively, you can disable ProGuard® entirely. 
+Alternatively, you can disable ProGuard® entirely: 
+
+```scala
+//| mill-version: 1.1.6
+//| mill-jvm-version: temurin:21
+//| mvnDeps:
+//| - io.github.fmantz::scala4java_plugin::0.1.0
+import mill._, scalalib._
+
+object examples extends scala4java.ScalaModule {
+  def scalaVersion = "3.8.4"
+  def enableShrinkingInBuild = false
+  def enableObfuscationInBuild = false
+}
+```
