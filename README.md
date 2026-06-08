@@ -11,7 +11,8 @@ In addition, while calling Java functions from Scala has always been intuitive, 
 Personally, I think a pure Java library is still the way to go if you want to reach both Java and Scala developers. 
 I asked myself: is it possible to build a pure Java library of a decent size while still using my favorite programming language, Scala? 
 My idea was to create a Java facade for a Scala library, bundle all necessary Scala dependencies within the Java JAR, shrink the output, 
-and shade the classes to avoid name clashes. It sounds like a bold experiment, but I gave it a try and implemented a Mill plugin to support this specific use case.
+and shade the third-party Scala classes to avoid name clashes. It sounds like a bold experiment, but I gave it a try and implemented a Mill plugin to support this specific use case.
+For me, this was a case study to see how customizable the Mill build tool is.
 
 A "hello-world" example project you find here:
 https://github.com/fmantz/mill-scala4java-example/tree/main/mill-create-lib
