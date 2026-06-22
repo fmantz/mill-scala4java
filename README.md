@@ -80,7 +80,9 @@ As usual, the Java library can be built and published locally with the following
 2. **Shaded Assembly**: Then, the Mill assembly plugin builds a "pre-assembly" JAR, shading all Scala libraries unless disabled. 
   This pre-assembly also includes test code and libraries, which are excluded from the later "publish" JAR (i.e. ```mill jar```). 
   The file is called a "pre-assembly" because it serves as the foundation for both the "publish" and final "assembly" JARs (i.e. ```mill assembly```).
-  The testing code is added to the pre-assembly for the later verification step. 
+  The testing code is added to the pre-assembly for the later verification step. The testing code needs to be added at this stage 
+  because the Scala standard library is also shaded. Consequently, the test code can no longer be called on the "pre-assembly" JAR 
+  unless the testing code and libraries are adjusted accordingly.
 3. **Optimization** (ProGuard®): Next, ProGuard® is used (unless disabled) to shrink and/or obfuscate the pre-assembly. We leverage the Mill ProGuard® plugin for this.
   To avoid manual configuration, we set all local source classes—including tests—as entry points. ProGuard® keep rules are automatically generated for all user-defined classes. 
   However, this step may break the code, as perfect auto-generation of ProGuard® rules is not possible.
@@ -192,8 +194,9 @@ Therefore, note a few minor limitations:
 Mill is remarkably easy to customize, even for niche use cases like the one described above. 
 Whether publishing Scala libraries as pure Java libraries is advisable remains a different matter. 
 Furthermore, the final JAR size depends heavily on the Scala features used and the effectiveness of the ProGuard® optimization, 
-making size predictions difficult. I'm not entirely convinced of the approach yet, but it was a great exercise. 
-Feel free to share your thoughts in the discussion!
+making size predictions difficult. I'm not entirely convinced of the approach yet, but it was a great exercise.
+If JAR size is a priority, it is advisable to use either a Java testing framework or a lightweight Scala testing framework for the verification step.
+This allows ProGuard to better optimize the Scala standard library classes. Feel free to share your thoughts in the discussion!
 
 **Huge thanks to all the engineers and maintainers behind the tools powering this plugin, especially Scala, Mill, ProGuard®, and Apache BCEL!**
 
