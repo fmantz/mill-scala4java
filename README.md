@@ -4,7 +4,7 @@
 
 **tl;dr: I implemented an experimental Mill plugin that publishes a Scala library as a pure Java library.**
 
-This experimental plugin emerged from my efforts to learn the Mill build tool. I decided to explore a use case I found particularly useful:
+This experimental plugin grew out of my efforts to learn the Mill build tool. I decided to tackle a use case I found challenging:
 
 In the past, before Scala 3 introduced the TASTy format, getting different Scala versions to work together wasn't always easy or possible. 
 In addition, while calling Java functions from Scala has always been intuitive, the reverse (calling Scala from Java) has not always been straightforward. 
