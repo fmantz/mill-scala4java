@@ -78,8 +78,8 @@ As usual, the Java library can be built and published locally with the following
 
 1. **Compilation & Documentation**: First, the code is compiled as usual, and the Javadoc is generated for the Java facade classes.
 2. **Shaded Assembly**: Then, the Mill assembly plugin builds a "pre-assembly" JAR, shading all Scala libraries unless disabled. 
-  This pre-assembly also includes test code and libraries, which are excluded from the later "publish" JAR (i.e. ```mill jar```). 
-  The file is called a "pre-assembly" because it serves as the foundation for both the "publish" and final "assembly" JARs (i.e. ```mill assembly```).
+  This pre-assembly also includes test code and libraries, which are excluded from the later "publish" JAR (i.e. `mill jar`). 
+  The file is called a "pre-assembly" because it serves as the foundation for both the "publish" and final "assembly" JARs (i.e. `mill assembly`).
   The testing code is added to the pre-assembly for the later verification step. The testing code needs to be added at this stage 
   because the Scala standard library is also shaded. Consequently, the test code can no longer be called on the "pre-assembly" JAR 
   unless the testing code and libraries are adjusted accordingly.
@@ -122,7 +122,7 @@ def enableObfuscationInBuild = true
 def enableLicensesInfo = true
 ```
 
-With default settings and no verification tests enabled (i.e., omitting ```extends scala4java.TestModule(this)```), 
+With default settings and no verification tests enabled (i.e., omitting `extends scala4java.TestModule(this)`), 
 my Scala library was only **571 KB**. Disabling 'LicensesInfo' generation reduced the size further to **505 KB**. 
 Adding JUnit tests barely affected the JAR size (increasing it to just 586 KB) since JUnit is Java-based and does not rely on Scala. 
 However, switching to 'uTest' increased the size to 793 KB because the testing library requires additional Scala standard functions 
@@ -142,7 +142,7 @@ and the resulting JAR remains highly versatile, working seamlessly across differ
 
 To provide an overview of what is included in the JARs and how different settings affect the results, I have compiled some additional data:
 
-note: ```scala4java.TestModule``` was only enabled for JUnit
+note: `scala4java.TestModule` was only enabled for JUnit
 
 - project classes (compiled. without tests):
   - 83.5K
@@ -176,13 +176,13 @@ Furthermore, please note that both shading and shrinking are required to make th
 ### Limitations
 
 In the **scala4java** plugin implementation, Mill's assembly feature is used to create the base for JAR files. 
-Consequently, the ```resolvedIvyAssembly``` and ```upstreamAssembly``` methods have been overridden. 
-Ultimately, this plugin focuses primarily on "JAR" functionality (i.e. ```mill jar```, ```mill publishLocal```, ```mill publishM2Local```) 
-and treats the assembly (```mill assembly```) merely as an underlying tool.
+Consequently, the `resolvedIvyAssembly` and `upstreamAssembly` methods have been overridden. 
+Ultimately, this plugin focuses primarily on "JAR" functionality (i.e. `mill jar`, `mill publishLocal`, `mill publishM2Local`) 
+and treats the assembly (`mill assembly`) merely as an underlying tool.
 
 Therefore, note a few minor limitations:
 
-- All test code and resources flagged by ```scala4java.TestModule(this)``` will be included in the (pre-)assembly.
+- All test code and resources flagged by `scala4java.TestModule(this)` will be included in the (pre-)assembly.
   To avoid potential naming clashes, ensure that you use unique names across different test modules.
 - Additionally, some unnecessary test classes and test library JARs may be included in the assembly.
   While this can be fixed, it is currently considered a low priority.
