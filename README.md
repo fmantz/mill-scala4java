@@ -147,7 +147,7 @@ note: `scala4java.TestModule` was only enabled for JUnit
 - project classes (compiled. without tests):
   - 83.5K
 
-- included Scala libraries in lib jar (total ca. 6.5 MB):
+- included Scala libraries in publish.jar (total ca. 6.5 MB):
   - geny_2.11-1.0.0.jar: 105 KB
   - grizzled-slf4j_2.11-1.3.4.jar: 7.4 KB
   - scala-library-2.11.12.jar: 5.5 MB
