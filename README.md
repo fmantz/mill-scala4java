@@ -74,7 +74,7 @@ As usual, the Java library can be built and published locally with the following
 ./mill publishM2Local    
 ```
 
-#### How does it work (Simplified):
+#### How does it work (simplified):
 
 1. **Compilation & Documentation**: First, the code is compiled as usual, and the Javadoc is generated for the Java facade classes.
 2. **Shaded Assembly**: Then, the Mill assembly plugin builds a "pre-assembly" JAR, shading all Scala libraries unless disabled. 
