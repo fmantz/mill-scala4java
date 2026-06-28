@@ -267,7 +267,7 @@ git clone https://github.com/fmantz/scala3-mill-example-project
 java -jar ./out/examples/assembly.dest/out.jar
 ```
 
-The assembly JAR size dropped from *9 MB* to *1.5 MB*.
+The assembly JAR size dropped from **9 MB** to **1.5 MB**.
 Since the scala4java plugin allows you to override any default setting, 
 you should be able to resolve any issues that may arise.
 
