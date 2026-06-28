@@ -123,7 +123,7 @@ def enableLicensesInfo = true
 ```
 
 With default settings and no verification tests enabled (i.e., omitting `extends scala4java.TestModule(this)`), 
-my Scala library was only **571 KB**. Disabling 'LicensesInfo' generation reduced the size further to **505 KB**. 
+the Java library of the example project above was only **571 KB**. Disabling 'LicensesInfo' generation reduced the size further to **505 KB**. 
 Adding JUnit tests barely affected the JAR size (increasing it to just 586 KB) since JUnit is Java-based and does not rely on Scala. 
 However, switching to 'uTest' increased the size to 793 KB because the testing library requires additional Scala standard functions 
 (code from the scala-library.jar). Finally, using 'ScalaTest' caused a massive jump to 3.2 MB, as it heavily utilizes the Scala API.
@@ -135,12 +135,12 @@ However, switching to 'uTest' increased the size to 793 KB because the testing l
 
 - no tests + no licence info : **505 KB**!
 
-These numbers are highly dependent on your specific setup and can vary based on several factors, 
+These numbers are highly dependent on your specific project and setup and can vary based on several factors, 
 including the libraries used, the Scala version, and your individual coding style. 
-Nevertheless, I consider this experiment a success: the JAR size was significantly reduced here (compared to the sum of all needed libraries), 
+Nevertheless, I consider this experiment a success: the JAR size of the example project was significantly reduced here (compared to the sum of all needed libraries), 
 and the resulting JAR remains highly versatile, working seamlessly across different setups and Scala versions.
 
-To provide an overview of what is included in the JARs and how different settings affect the results, I have compiled some additional data:
+To provide an overview of what is included in the example JAR and how different settings affect the results, I have compiled some additional data:
 
 note: `scala4java.TestModule` was only enabled for JUnit
 
