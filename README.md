@@ -1,6 +1,6 @@
 # mill-scala4java
 
-## How flexible is the mill build tool? 
+## How flexible is the Mill build tool? 
 
 **tl;dr: I implemented an experimental Mill plugin that publishes a Scala library as a pure Java library.**
 
